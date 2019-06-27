@@ -109,8 +109,19 @@ addFilmButton.addEventListener('click', (e) => {
   filmInfo.nameAndStar.push([0, addFilmName.value, filmInfo.nameAndStar.length, 'n', 'n', 'n', 'n', 'n']);
   console.log(filmInfo.nameAndStar);
   visualisation = []
+  filmInfo.nameAndStar.sort(function (a, b) { return b[0] - a[0] });
+    for (i = 1; i < filmInfo.nameAndStar.length; i++) {
+      for (j = 1; j < filmInfo.nameAndStar.length; j++) {
+        if (filmInfo.nameAndStar[j][0] === filmInfo.nameAndStar[j - 1][0]) {
+          if (filmInfo.nameAndStar[j][1].toLocaleLowerCase() < filmInfo.nameAndStar[j - 1][1].toLocaleLowerCase()) {
+            let change_obj = filmInfo.nameAndStar[j];
+            filmInfo.nameAndStar[j] = filmInfo.nameAndStar[j - 1];
+            filmInfo.nameAndStar[j - 1] = change_obj;
+          }
+        }
+      }
+    }
     for (let i = 0; i < filmInfo.nameAndStar.length; i += 1) {
-
       visualisation.push(`
         <div class="film-info">
           <div class="film-name">${filmInfo.nameAndStar[i][1]}</div>
