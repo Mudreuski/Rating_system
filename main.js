@@ -1,4 +1,7 @@
 const section = document.querySelector('.section');
+const addFilmName = document.getElementById('addFilmName');
+const addFilmButton = document.getElementById('addFilmButton');
+console.log(addFilmName.value);
 let visualisation = [];
 let filmInfo = {
   nameAndStar: [[0, 'King Arthur', 0, 'n', 'n', 'n', 'n', 'n'],
@@ -64,12 +67,14 @@ section.addEventListener('click', (e) => {
     filmInfo.nameAndStar[+e.target.dataset.film][+e.target.dataset.rate + 2] = 'active';
 
     filmInfo.nameAndStar.sort(function (a, b) { return b[0] - a[0] });
-    for (j = 1; j < filmInfo.nameAndStar.length; j++) {
-      if (filmInfo.nameAndStar[j][0] === filmInfo.nameAndStar[j - 1][0]) {
-        if (filmInfo.nameAndStar[j][1] < filmInfo.nameAndStar[j - 1][1]) {
-          let change_obj = filmInfo.nameAndStar[j];
-          filmInfo.nameAndStar[j] = filmInfo.nameAndStar[j - 1];
-          filmInfo.nameAndStar[j - 1] = change_obj;
+    for (i = 1; i < filmInfo.nameAndStar.length; i++) {
+      for (j = 1; j < filmInfo.nameAndStar.length; j++) {
+        if (filmInfo.nameAndStar[j][0] === filmInfo.nameAndStar[j - 1][0]) {
+          if (filmInfo.nameAndStar[j][1].toLocaleLowerCase() < filmInfo.nameAndStar[j - 1][1].toLocaleLowerCase()) {
+            let change_obj = filmInfo.nameAndStar[j];
+            filmInfo.nameAndStar[j] = filmInfo.nameAndStar[j - 1];
+            filmInfo.nameAndStar[j - 1] = change_obj;
+          }
         }
       }
     }
@@ -78,17 +83,17 @@ section.addEventListener('click', (e) => {
     for (let i = 0; i < filmInfo.nameAndStar.length; i += 1) {
 
       visualisation.push(`
-          <div class="film-info">
-            <div class="film-name">${filmInfo.nameAndStar[i][1]}</div>
-            <div class="film-rating">
-              <i class="fa fa-star rating-item ${filmInfo.nameAndStar[i][7]}" data-rate="5" data-film="${i}" aria-hidden="true"></i>
-              <i class="fa fa-star rating-item ${filmInfo.nameAndStar[i][6]}" data-rate="4" data-film="${i}" aria-hidden="true"></i>
-              <i class="fa fa-star rating-item ${filmInfo.nameAndStar[i][5]}" data-rate="3" data-film="${i}" aria-hidden="true"></i>
-              <i class="fa fa-star rating-item ${filmInfo.nameAndStar[i][4]}" data-rate="2" data-film="${i}" aria-hidden="true"></i>
-              <i class="fa fa-star rating-item ${filmInfo.nameAndStar[i][3]}" data-rate="1" data-film="${i}" aria-hidden="true"></i>
-            </div>
-          </div>  
-        `);
+        <div class="film-info">
+          <div class="film-name">${filmInfo.nameAndStar[i][1]}</div>
+          <div class="film-rating">
+            <i class="fa fa-star rating-item ${filmInfo.nameAndStar[i][7]}" data-rate="5" data-film="${i}" aria-hidden="true"></i>
+            <i class="fa fa-star rating-item ${filmInfo.nameAndStar[i][6]}" data-rate="4" data-film="${i}" aria-hidden="true"></i>
+            <i class="fa fa-star rating-item ${filmInfo.nameAndStar[i][5]}" data-rate="3" data-film="${i}" aria-hidden="true"></i>
+            <i class="fa fa-star rating-item ${filmInfo.nameAndStar[i][4]}" data-rate="2" data-film="${i}" aria-hidden="true"></i>
+            <i class="fa fa-star rating-item ${filmInfo.nameAndStar[i][3]}" data-rate="1" data-film="${i}" aria-hidden="true"></i>
+          </div>
+        </div>  
+      `);
     }
 
     document.getElementById('root').innerHTML = visualisation.join('\n');
@@ -98,3 +103,31 @@ section.addEventListener('click', (e) => {
     localStorage.setItem("myKey", JSON.stringify(filmInfo));
   }
 });
+
+addFilmButton.addEventListener('click', (e) => {
+  console.log(addFilmName.value);
+  filmInfo.nameAndStar.push([0, addFilmName.value, filmInfo.nameAndStar.length, 'n', 'n', 'n', 'n', 'n']);
+  console.log(filmInfo.nameAndStar);
+  visualisation = []
+    for (let i = 0; i < filmInfo.nameAndStar.length; i += 1) {
+
+      visualisation.push(`
+        <div class="film-info">
+          <div class="film-name">${filmInfo.nameAndStar[i][1]}</div>
+          <div class="film-rating">
+            <i class="fa fa-star rating-item ${filmInfo.nameAndStar[i][7]}" data-rate="5" data-film="${i}" aria-hidden="true"></i>
+            <i class="fa fa-star rating-item ${filmInfo.nameAndStar[i][6]}" data-rate="4" data-film="${i}" aria-hidden="true"></i>
+            <i class="fa fa-star rating-item ${filmInfo.nameAndStar[i][5]}" data-rate="3" data-film="${i}" aria-hidden="true"></i>
+            <i class="fa fa-star rating-item ${filmInfo.nameAndStar[i][4]}" data-rate="2" data-film="${i}" aria-hidden="true"></i>
+            <i class="fa fa-star rating-item ${filmInfo.nameAndStar[i][3]}" data-rate="1" data-film="${i}" aria-hidden="true"></i>
+          </div>
+        </div>  
+      `);
+    }
+
+    document.getElementById('root').innerHTML = visualisation.join('\n');
+
+    console.log(filmInfo.nameAndStar);
+
+    localStorage.setItem("myKey", JSON.stringify(filmInfo));
+}); 

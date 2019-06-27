@@ -2,6 +2,25 @@
   box-sizing: border-box;
 }
 
+.addItem input {
+  width: 250px;
+  height: 30px;
+  padding-left: 10px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.addItem button {
+  width: 45px;
+  height: 30px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.section {
+  margin-top: 15px;
+}
+
 .film-info {
   width: 300px;
   height: 30px;
@@ -10,11 +29,11 @@
   justify-content: space-between;
   align-items: center;
   border: 1px solid black;
-  border-radius: 15px;
+  border-radius: 5px;
 }
 
 .film-info + .film-info {
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 .film-rating {
